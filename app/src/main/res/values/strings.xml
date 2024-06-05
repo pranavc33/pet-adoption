@@ -1,0 +1,13 @@
+<resources>
+    <string name="app_name">Furrishta</string>
+    <string name="login">Login</string>
+    <string name="email">Email</string>
+    <string name="password">Password</string>
+    <string name="register">Register</string>
+    <string-array name="animal_types">
+        <item>Dog</item>
+        <item>Cat</item>
+        <item>Bird</item>
+    </string-array>
+    <!-- Other strings -->
+</resources>

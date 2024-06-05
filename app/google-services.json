@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "836172056736",
+    "project_id": "furrishta-ac928",
+    "storage_bucket": "furrishta-ac928.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:836172056736:android:09c90cc5f76d331433a1c5",
+        "android_client_info": {
+          "package_name": "com.example.furrishta"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyBw8oAWCrw7mrOVwbUi6Y4R11Q0sG_sTw8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

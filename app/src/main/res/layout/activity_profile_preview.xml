@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <ImageView
+            android:id="@+id/preview_pet_image"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_background" />
+
+        <TextView
+            android:id="@+id/preview_animal_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Animal Type"
+            android:textStyle="bold"
+            android:paddingTop="8dp" />
+
+        <TextView
+            android:id="@+id/preview_owner_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Owner Name"
+            android:paddingTop="8dp" />
+
+        <TextView
+            android:id="@+id/preview_owner_contact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Owner Contact"
+            android:paddingTop="8dp" />
+
+        <TextView
+            android:id="@+id/preview_pet_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pet Name"
+            android:paddingTop="8dp" />
+
+        <TextView
+            android:id="@+id/preview_pet_age"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pet Age"
+            android:paddingTop="8dp" />
+
+        <TextView
+            android:id="@+id/preview_pet_breed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pet Breed"
+            android:paddingTop="8dp" />
+
+        <TextView
+            android:id="@+id/preview_pet_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Pet Description"
+            android:paddingTop="8dp" />
+    </LinearLayout>
+</ScrollView>

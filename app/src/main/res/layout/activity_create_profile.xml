@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8"?>
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:padding="16dp">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
+
+        <Spinner
+            android:id="@+id/spinner_animal_type"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:entries="@array/animal_types" />
+
+        <EditText
+            android:id="@+id/owner_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Owner Name" />
+
+        <EditText
+            android:id="@+id/owner_contact"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Owner Contact" />
+
+
+        <ImageView
+            android:id="@+id/image_view_pet"
+            android:layout_width="match_parent"
+            android:layout_height="200dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/ic_launcher_background"/>
+
+        <Button
+            android:id="@+id/btn_choose_image"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Choose Image"
+            android:onClick="chooseImage" />
+
+
+        <EditText
+            android:id="@+id/pet_name"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Pet Name" />
+
+        <EditText
+            android:id="@+id/pet_age"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Pet Age" />
+
+        <EditText
+            android:id="@+id/pet_breed"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Pet Breed" />
+
+        <EditText
+            android:id="@+id/pet_description"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:hint="Pet Description"
+            android:lines="3"
+            android:gravity="top|start" />
+
+        <Button
+            android:id="@+id/btn_submit_profile"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Submit" />
+    </LinearLayout>
+</ScrollView>
