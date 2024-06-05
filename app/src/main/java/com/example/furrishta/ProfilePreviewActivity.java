@@ -1,6 +1,8 @@
 package com.example.furrishta;
 
+import android.content.Intent;
 import android.os.Bundle;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -24,6 +26,12 @@ public class ProfilePreviewActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_profile_preview);
+
+        Button btn_browse_profiles = findViewById(R.id.btn_browse_profiles);
+        btn_browse_profiles.setOnClickListener(v -> {
+            Intent intent = new Intent(ProfilePreviewActivity.this, BrowseProfilesActivity.class);
+            startActivity(intent);
+        });
 
         db = FirebaseFirestore.getInstance();
 
@@ -76,4 +84,5 @@ public class ProfilePreviewActivity extends AppCompatActivity {
             }
         });
     }
+
 }
