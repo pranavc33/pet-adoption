@@ -9,6 +9,7 @@ import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.util.Log;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -27,6 +28,7 @@ import androidx.core.content.ContextCompat;
 
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.firestore.DocumentReference;
 import com.google.firebase.firestore.FirebaseFirestore;
 import com.google.firebase.storage.FirebaseStorage;
@@ -44,7 +46,6 @@ public class CreateProfileActivity extends AppCompatActivity {
     private static final int REQUEST_CODE_PERMISSIONS = 1002;
 
     private Spinner animalTypeSpinner;
-    private ActivityResultLauncher<Intent> someActivityResultLauncher;
     private EditText ownerNameEditText, ownerContactEditText, petNameEditText, petAgeEditText, petBreedEditText, petDescriptionEditText;
     private ImageView petImageView;
     private Button chooseImageButton, submitButton;
@@ -88,26 +89,6 @@ public class CreateProfileActivity extends AppCompatActivity {
             }
         });
 
-        someActivityResultLauncher = registerForActivityResult(
-                new ActivityResultContracts.StartActivityForResult(),
-                result -> {
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        Intent data = result.getData();
-                        if (data != null && data.getData() != null) {
-                            Uri selectedImageUri = data.getData();
-                            // Process the selected image URI
-                            try {
-                                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), selectedImageUri);
-                                petImageView.setImageBitmap(bitmap);
-                                imageUri = selectedImageUri;
-                            } catch (IOException e) {
-                                e.printStackTrace();
-                            }
-                        }
-                    }
-                }
-        );
-
         submitButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
@@ -135,7 +116,22 @@ public class CreateProfileActivity extends AppCompatActivity {
 
     private void openImagePicker() {
         Intent intent = new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
-        someActivityResultLauncher.launch(intent);
+        startActivityForResult(intent, REQUEST_CODE_IMAGE_PICK);
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode, int resultCode, @Nullable Intent data) {
+        super.onActivityResult(requestCode, resultCode, data);
+        if (requestCode == REQUEST_CODE_IMAGE_PICK && resultCode == Activity.RESULT_OK && data != null && data.getData() != null) {
+            imageUri = data.getData();
+            Log.d("CreateProfileActivity", "Image URI: " + imageUri.toString());
+            try {
+                Bitmap bitmap = MediaStore.Images.Media.getBitmap(this.getContentResolver(), imageUri);
+                petImageView.setImageBitmap(bitmap);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
     }
 
     private void submitProfile() {
@@ -151,23 +147,18 @@ public class CreateProfileActivity extends AppCompatActivity {
             StorageReference storageRef = storage.getReference();
             StorageReference petImageRef = storageRef.child("pet_images/" + UUID.randomUUID().toString());
 
-            petImageRef.putFile(imageUri).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
-                @Override
-                public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
-                    petImageRef.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
-                        @Override
-                        public void onSuccess(Uri uri) {
+            petImageRef.putFile(imageUri)
+                    .addOnSuccessListener(taskSnapshot -> {
+                        petImageRef.getDownloadUrl().addOnSuccessListener(uri -> {
                             String imageUrl = uri.toString();
                             saveProfileToFirestore(animalType, ownerName, ownerContact, petName, petAge, petBreed, petDescription, imageUrl);
-                        }
+                        }).addOnFailureListener(e -> {
+                            Toast.makeText(CreateProfileActivity.this, "Failed to get download URL", Toast.LENGTH_SHORT).show();
+                        });
+                    })
+                    .addOnFailureListener(e -> {
+                        Toast.makeText(CreateProfileActivity.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
                     });
-                }
-            }).addOnFailureListener(new OnFailureListener() {
-                @Override
-                public void onFailure(@NonNull Exception e) {
-                    Toast.makeText(CreateProfileActivity.this, "Failed to upload image", Toast.LENGTH_SHORT).show();
-                }
-            });
         } else {
             saveProfileToFirestore(animalType, ownerName, ownerContact, petName, petAge, petBreed, petDescription, null);
         }
@@ -212,3 +203,4 @@ public class CreateProfileActivity extends AppCompatActivity {
         }
     }
 }
+
