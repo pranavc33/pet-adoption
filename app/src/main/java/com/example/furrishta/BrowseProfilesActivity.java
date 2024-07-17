@@ -1,21 +1,9 @@
 package com.example.furrishta;
 
 import android.os.Bundle;
-
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.furrishta.R;
-import com.example.furrishta.PetProfileAdapter;
-import com.example.furrishta.PetProfile;
-import com.google.firebase.firestore.CollectionReference;
-import com.google.firebase.firestore.EventListener;
-import com.google.firebase.firestore.FirebaseFirestore;
-import com.google.firebase.firestore.FirebaseFirestoreException;
-import com.google.firebase.firestore.QuerySnapshot;
-
 import java.util.ArrayList;
 import java.util.List;
 
@@ -30,33 +18,16 @@ public class BrowseProfilesActivity extends AppCompatActivity {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_browse_profiles);
 
-        recyclerView = findViewById(R.id.recyclerView);
+        recyclerView = findViewById(R.id.recycler_view);
         recyclerView.setLayoutManager(new LinearLayoutManager(this));
 
+        // Initialize the petProfileList with actual data
         petProfileList = new ArrayList<>();
-        adapter = new PetProfileAdapter(petProfileList);
+        petProfileList.add(new PetProfile("Dog", "John Doe", "123-456-7890", "Buddy", "2 years", "Golden Retriever", "Friendly and playful"));
+        petProfileList.add(new PetProfile("Cat", "Jane Smith", "987-654-3210", "Whiskers", "3 years", "Siamese", "Calm and affectionate"));
+        petProfileList.add(new PetProfile("Rabbit", "Alice Brown", "555-123-4567", "Thumper", "1 year", "Netherland Dwarf", "Curious and energetic"));
+
+        adapter = new PetProfileAdapter(this, petProfileList);
         recyclerView.setAdapter(adapter);
-
-        fetchPetProfiles();
     }
-
-    private void fetchPetProfiles() {
-        FirebaseFirestore db = FirebaseFirestore.getInstance();
-        CollectionReference petProfilesRef = db.collection("profiles");
-
-        petProfilesRef.addSnapshotListener(new EventListener<QuerySnapshot>() {
-            @Override
-            public void onEvent(@Nullable QuerySnapshot value, @Nullable FirebaseFirestoreException error) {
-                if (error != null) {
-                    return;
-                }
-
-                if (value != null) {
-                    petProfileList.clear();
-                    petProfileList.addAll(value.toObjects(PetProfile.class));
-                    adapter.notifyDataSetChanged();
-                }
-            }
-      });
-   }
 }

@@ -1,6 +1,5 @@
 package com.example.furrishta;
 
-
 public class PetProfile {
     private String animalType;
     private String ownerName;
@@ -9,13 +8,12 @@ public class PetProfile {
     private String petAge;
     private String petBreed;
     private String petDescription;
-    private String imageUrl;
 
-    // Default constructor required for calls to DataSnapshot.getValue(PetProfile.class)
     public PetProfile() {
+        // Default constructor required for calls to DataSnapshot.getValue(PetProfile.class)
     }
 
-    public PetProfile(String animalType, String ownerName, String ownerContact, String petName, String petAge, String petBreed, String petDescription, String imageUrl) {
+    public PetProfile(String animalType, String ownerName, String ownerContact, String petName, String petAge, String petBreed, String petDescription) {
         this.animalType = animalType;
         this.ownerName = ownerName;
         this.ownerContact = ownerContact;
@@ -23,7 +21,6 @@ public class PetProfile {
         this.petAge = petAge;
         this.petBreed = petBreed;
         this.petDescription = petDescription;
-        this.imageUrl = imageUrl;
     }
 
     // Getters and setters
@@ -81,13 +78,5 @@ public class PetProfile {
 
     public void setPetDescription(String petDescription) {
         this.petDescription = petDescription;
-    }
-
-    public String getImageUrl() {
-        return imageUrl;
-    }
-
-    public void setImageUrl(String imageUrl) {
-        this.imageUrl = imageUrl;
     }
 }

@@ -1,78 +1,78 @@
 package com.example.furrishta;
 
+import android.content.Context;
+import android.content.Intent;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
-
-import com.example.furrishta.R;
-import com.example.furrishta.PetProfile;
-import com.squareup.picasso.Picasso;
-
 import java.util.List;
 
 public class PetProfileAdapter extends RecyclerView.Adapter<PetProfileAdapter.PetProfileViewHolder> {
 
-    private List<PetProfile> petProfiles;
+    private Context context;
+    private List<PetProfile> petProfileList;
 
-    public PetProfileAdapter(List<PetProfile> petProfiles) {
-        this.petProfiles = petProfiles;
+    public PetProfileAdapter(Context context, List<PetProfile> petProfileList) {
+        this.context = context;
+        this.petProfileList = petProfileList;
     }
 
     @NonNull
     @Override
     public PetProfileViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
-        View view = LayoutInflater.from(parent.getContext())
-                .inflate(R.layout.item_pet_profile, parent, false);
+        View view = LayoutInflater.from(context).inflate(R.layout.item_pet_profile, parent, false);
         return new PetProfileViewHolder(view);
     }
 
     @Override
     public void onBindViewHolder(@NonNull PetProfileViewHolder holder, int position) {
-        PetProfile petProfile = petProfiles.get(position);
+        PetProfile petProfile = petProfileList.get(position);
 
-        holder.animalTypeTextView.setText(petProfile.getAnimalType());
-        holder.ownerNameTextView.setText(petProfile.getOwnerName());
-        holder.ownerContactTextView.setText(petProfile.getOwnerContact());
-        holder.petNameTextView.setText(petProfile.getPetName());
-        holder.petAgeTextView.setText(petProfile.getPetAge());
-        holder.petBreedTextView.setText(petProfile.getPetBreed());
-        holder.petDescriptionTextView.setText(petProfile.getPetDescription());
+        holder.animalType.setText(petProfile.getAnimalType());
+        holder.ownerName.setText(petProfile.getOwnerName());
+        holder.ownerContact.setText(petProfile.getOwnerContact());
+        holder.petName.setText(petProfile.getPetName());
+        holder.petAge.setText(petProfile.getPetAge());
+        holder.petBreed.setText(petProfile.getPetBreed());
+        holder.petDescription.setText(petProfile.getPetDescription());
 
-        Picasso.get().load(petProfile.getImageUrl()).into(holder.petImageView);
+        holder.chatButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                // Create an Intent to start ChatActivity
+                Intent intent = new Intent(context, ChatActivity.class);
+                intent.putExtra("PET_NAME", petProfile.getPetName()); // Pass pet name to ChatActivity
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override
     public int getItemCount() {
-        return petProfiles.size();
+        return petProfileList.size();
     }
 
     public static class PetProfileViewHolder extends RecyclerView.ViewHolder {
-
-        ImageView petImageView;
-        TextView animalTypeTextView;
-        TextView ownerNameTextView;
-        TextView ownerContactTextView;
-        TextView petNameTextView;
-        TextView petAgeTextView;
-        TextView petBreedTextView;
-        TextView petDescriptionTextView;
+        ImageView petImage;
+        TextView animalType, ownerName, ownerContact, petName, petAge, petBreed, petDescription;
+        Button chatButton;
 
         public PetProfileViewHolder(@NonNull View itemView) {
             super(itemView);
-            petImageView = itemView.findViewById(R.id.pet_image);
-            animalTypeTextView = itemView.findViewById(R.id.animal_type);
-            ownerNameTextView = itemView.findViewById(R.id.owner_name);
-            ownerContactTextView = itemView.findViewById(R.id.owner_contact);
-            petNameTextView = itemView.findViewById(R.id.pet_name);
-            petAgeTextView = itemView.findViewById(R.id.pet_age);
-            petBreedTextView = itemView.findViewById(R.id.pet_breed);
-            petDescriptionTextView = itemView.findViewById(R.id.pet_description);
+            petImage = itemView.findViewById(R.id.pet_image);
+            animalType = itemView.findViewById(R.id.animal_type);
+            ownerName = itemView.findViewById(R.id.owner_name);
+            ownerContact = itemView.findViewById(R.id.owner_contact);
+            petName = itemView.findViewById(R.id.pet_name);
+            petAge = itemView.findViewById(R.id.pet_age);
+            petBreed = itemView.findViewById(R.id.pet_breed);
+            petDescription = itemView.findViewById(R.id.pet_description);
+            chatButton = itemView.findViewById(R.id.btn_chat);
         }
     }
 }
-
